@@ -5,6 +5,8 @@
 - Node.js
 - Adonis.js
   - Lucid
+  - Auth
+  - Argon2
 - Docker
 - PostgreSQL
 
@@ -26,9 +28,23 @@ Por isso é necessário atenção, se você já tiver o Postgres configurado, pr
 
 Para fazer a configuração da imagem, rode o comando: `docker-compose up -d`
 
+### Banco de Dados
+
 Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de ferramenta de Banco de Dados, ou Inteface para Manipulação de Banco de Dados.
 
 Durante meus testes usei o [DBeaver Community](https://dbeaver.io/), mas fique a vontade para usar o que preferir.
+
+#### Criar as tabelas no Banco de Dados
+
+Como estamos usando Lucid, um ORM do próprio Adonis, preciamos executar o comando: `node ace migration:run`
+
+Assim ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não podemos executar o servidor, ainda resta o último passo.
+
+#### Populando o Banco de Dados
+
+Precisamos inserir alguns dados no Banco de Dados, para que aplicação funcione corretamente, conhecido como seeders (semente), vamos usar esse processo para já deixar o usuário admin cadastrado, ele realizará o acesso de cadastro de veículos no nosso sistema.
+
+Execute o comando: `node ace seeders`
 
 ### Executando o Servidor
 
