@@ -1,12 +1,16 @@
 # Backend
 
+Backend do projeto de Teste para vaga de Fullstack da vertel, esse projeto consiste em um CRUD de uma vitrine de veículos usados, onde temos alguns requisitos:
+
+A parte de exibição dos veículos (Read ou Listagem) será pública, já cadastro, atualização e apagar serão autenticadas, então teremos uma parte para acesso do usuário.
+
 ## Tecnologias
 
 - Node.js
 - Adonis.js
   - Lucid
   - Auth
-  - Argon2
+  - Argon2 (criptografia das senhas)
 - Docker
 - PostgreSQL
 
@@ -16,11 +20,11 @@ Certifique-se de ter a versão 14 ou superior do Node, para isso use o comando: 
 
 Precisa ter uma saída como essa: `v16.20.0`, caso não tenha resultados ou a versão seja menor que a 14, por favor providencie a instalação ou atualização do Node.
 
-### Instalação dos Pacotes
+### 1. Instalação dos Pacotes
 
 Faça a instalação dos pacotes, com o comando: `npm -i ou yarn`
 
-### Imagem Docker
+### 2. Imagem Docker
 
 Você deve ter percebido que existe um arquivo chamado `docker-compose.yml`, isso quer dizer que o nosso projeto está contemplando dockerização, e que vamos rodar é o banco de dados PostgreSQL.
 
@@ -63,7 +67,7 @@ PG_DB_NAME=vertel
 
 Feito isso, agora é testar se está conseguindo acessar o Banco de Dados.
 
-### Banco de Dados
+### 3. Banco de Dados
 
 Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de Ferramenta de Banco de Dados ou Inteface para Manipulação de Banco de Dados.
 
@@ -77,12 +81,11 @@ Usuário e Senha: vertel
 
 ![image](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/09df2b89-393a-4128-962e-888f6fd01b32)
 
-
-#### Criar as tabelas no Banco de Dados
+#### 3.1 Criar as tabelas no Banco de Dados
 
 Como estamos usando Lucid, um ORM do próprio Adonis, preciamos executar o comando: `node ace migration:run`, dessa forma ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não podemos executar o servidor, pois resta o último passo abaixo.
 
-#### Populando o Banco de Dados
+#### 3.2 Populando o Banco de Dados
 
 Precisamos inserir alguns dados no Banco de Dados, para que aplicação funcione corretamente, conhecido como seeders (semente), vamos usar esse processo para já deixar o usuário admin cadastrado, ele realizará o acesso de cadastro de veículos no nosso sistema.
 
@@ -95,7 +98,7 @@ usuário: vertel
 senha: vertel
 ```
 
-### Executando o Servidor
+### 4 Executando o Servidor
 
 Finalizado a instalação dos pacotes, configuração do Docker e iniciado o seeder, rode o comando: `node ace serve --watch`, ou `npm run dev` ou `yarn dev`, se não apresentar nenhum erro, e houver uma saída como essa:
 
