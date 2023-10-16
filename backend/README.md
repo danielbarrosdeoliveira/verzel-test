@@ -24,21 +24,40 @@ Faça a instalação dos pacotes, com o comando: `npm -i ou yarn`
 
 Você deve ter percebido que existe um arquivo chamado `docker-compose.yml`, isso quer dizer que o nosso projeto está contemplando dockerização, e que vamos rodar é o banco de dados PostgreSQL.
 
-Por isso é necessário atenção, se você já tiver o Postgres configurado, provavelmente não irá conseguir usar a porta padrão 5432, troque a porta no arquivo `docker-compose.yml`, onde está PORT, para uma porta disponível em seu sistema operacional, não esqueça de fazer as trocas também nos arquivos .env
+Por isso é necessário atenção, se você já tiver o PostgreSQL configurado, provavelmente não irá conseguir usar a porta padrão 5432, então troque a porta no arquivo `docker-compose.yml`.
+
+```yml
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: 'vertel'
+      POSTGRES_PASSWORD: 'vertel'
+    ports:
+      - '5432:5432'
+```
+
+onde está **ports**, troque para uma porta disponível em seu sistema operacional, não esqueça de realizar a troca também nos arquivos .env, lá a variável é `PORT`
 
 Para fazer a configuração da imagem, rode o comando: `docker-compose up -d`
 
 ### Banco de Dados
 
-Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de ferramenta de Banco de Dados, ou Inteface para Manipulação de Banco de Dados.
+Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de ferramenta de Banco de Dados ou Inteface para Manipulação de Banco de Dados.
 
 Durante meus testes usei o [DBeaver Community](https://dbeaver.io/), mas fique a vontade para usar o que preferir.
 
+```
+Host: localhost
+Porta: A que você colocou ou a padrão se for seu caso.
+Usuário e Senha: vertel
+```
+
 #### Criar as tabelas no Banco de Dados
 
-Como estamos usando Lucid, um ORM do próprio Adonis, preciamos executar o comando: `node ace migration:run`
-
-Assim ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não podemos executar o servidor, ainda resta o último passo.
+Como estamos usando Lucid, um ORM do próprio Adonis, preciamos executar o comando: `node ace migration:run`, dessa forma ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não podemos executar o servidor, pois resta o último passo abaixo.
 
 #### Populando o Banco de Dados
 
@@ -48,14 +67,18 @@ Execute o comando: `node ace db:seed`
 
 Agora temos o usuário padrão cadastrado:
 
+```
 usuário: vertel
 senha: vertel
+```
 
 ### Executando o Servidor
 
-Finalizado a instalação dos pacotes e configuração do Docker, para executar o servidor, rode o comando: `node ace serve --watch`, se não apresentar nenhum erro, e houver uma saída como essa:
+Finalizado a instalação dos pacotes, configuração do Docker e iniciado o seeder, rode o comando: `node ace serve --watch`, ou `npm run dev` ou `yarn dev`, se não apresentar nenhum erro, e houver uma saída como essa:
 
-`Server address: http://127.0.0.1:3333
-Watching filesystem for changes: YES`
+```
+Server address: http://127.0.0.1:3333
+Watching filesystem for changes: YES
+```
 
-É porque o backend já está rodando, bastar usar um software de teste de API, eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir.
+É porque o backend já está rodando, basta usar um software de teste de API, eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir, vou deixar um arquivo com as rotas configuradas
