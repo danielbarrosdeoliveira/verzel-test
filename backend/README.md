@@ -75,6 +75,9 @@ Porta: A que você colocou ou a padrão se for seu caso.
 Usuário e Senha: vertel
 ```
 
+![image](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/09df2b89-393a-4128-962e-888f6fd01b32)
+
+
 #### Criar as tabelas no Banco de Dados
 
 Como estamos usando Lucid, um ORM do próprio Adonis, preciamos executar o comando: `node ace migration:run`, dessa forma ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não podemos executar o servidor, pois resta o último passo abaixo.
