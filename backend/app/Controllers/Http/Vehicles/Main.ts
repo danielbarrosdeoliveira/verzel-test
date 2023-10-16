@@ -13,7 +13,9 @@ export default class MainsController {
       return response.ok(vehicles)
     }
 
-    return response.notFound()
+    return response.notFound({
+      msg: 'Nenhum veículo cadastrado.'
+    })
   }
 
   public async store({ request }: HttpContextContract) {
