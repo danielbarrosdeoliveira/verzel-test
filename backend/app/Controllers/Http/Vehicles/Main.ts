@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Application from '@ioc:Adonis/Core/Application'
+import Drive from '@ioc:Adonis/Core/Drive'
 
 import { StoreValidator, UpdateValidator } from 'App/Validators/Vehicles'
 import Vehicle from 'App/Models/Vehicle'
@@ -77,5 +78,28 @@ export default class MainsController {
     await vehicle.save()
 
     return vehicle
+  }
+
+  public async destroy({ request, response }: HttpContextContract) {
+    const { id } = request.params()
+
+    const vehicle = await Vehicle.findBy('id', id)
+
+    if (!vehicle) {
+      return response.notFound()
+    }
+
+    const vehiclePhoto = vehicle.$attributes.photo
+    const vehiclePhotoExists = await Drive.exists(`/uploads/${vehiclePhoto}`)
+
+    if (vehiclePhotoExists) {
+      await Drive.delete(`/uploads/${vehiclePhoto}`)
+    }
+
+    if (vehiclePhotoExists) {
+      await vehicle.delete()
+    }
+
+    return response.finish()
   }
 }
