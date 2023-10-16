@@ -24,7 +24,10 @@ Faça a instalação dos pacotes, com o comando: `npm -i ou yarn`
 
 Você deve ter percebido que existe um arquivo chamado `docker-compose.yml`, isso quer dizer que o nosso projeto está contemplando dockerização, e que vamos rodar é o banco de dados PostgreSQL.
 
-Por isso é necessário atenção, se você já tiver o PostgreSQL configurado, provavelmente não irá conseguir usar a porta padrão 5432, então troque a porta no arquivo `docker-compose.yml`.
+Se você tiver o Docker instalado, siga as instruções abaixo.
+Se não tiver o Docker e quiser instalar, faça a instalação do Docker, volte e siga o passo a passo abaixo.
+
+Nesse passo é necessário atenção, se você já tiver o **PostgreSQL** como instância instalado e configurado, provavelmente não irá conseguir usar a porta padrão **5432** do Postrgres, então troque a porta no arquivo `docker-compose.yml` que está na raiz do projeto, exemplo:
 
 ```yml
 version: '3.1'
@@ -36,16 +39,33 @@ services:
       POSTGRES_USER: 'vertel'
       POSTGRES_PASSWORD: 'vertel'
     ports:
-      - '5432:5432'
+      - '5430:5430'
 ```
 
-onde está **ports**, troque para uma porta disponível em seu sistema operacional, não esqueça de realizar a troca também nos arquivos .env, lá a variável é `PORT`
+Onde está **ports**, eu troquei para uma porta disponível em meu sistema operacional, faça o mesmo, e não esqueça de realizar a troca também nos arquivos .env, lá a variável é `PORT`
 
-Para fazer a configuração da imagem, rode o comando: `docker-compose up -d`
+Para fazer subir configuração da imagem e já executar o banco de dados, rode o comando: `docker-compose up -d`
+
+Se não quiser instalar o Docker, e já tem uma instância do PotsgreSQL, crie um banco de dados chamado vertel.
+Se não tem a instância do Postgres, e não quer instalar o Docker, faça a instalação do PosgreSQL, crie um banco de dados chamado vertel, volte e siga o passo a passo.
+
+Agora basta ajustar o arquivo .env, abaixo exemplo.
+
+```
+DB_CONNECTION=pg
+
+PG_HOST=IP DA INSTÂNCIA, se for LOCALHOST, pode por ip de loopback 127.0.0.1 ou localhost
+PG_PORT=PORTA CONFIGURADA NA INSTÂNCIA ou a PADRÃO se for o caso 5432
+PG_USER=INFORME o usuário da sua INSTÂNCIA
+PG_PASSWORD=INFORME a senha da sua INSTÂNCIA
+PG_DB_NAME=vertel
+```
+
+Feito isso, agora é testar se está conseguindo acessar o Banco de Dados.
 
 ### Banco de Dados
 
-Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de ferramenta de Banco de Dados ou Inteface para Manipulação de Banco de Dados.
+Para testar se o banco de dados está funcionando, você precisará de um software comumente chamado de Ferramenta de Banco de Dados ou Inteface para Manipulação de Banco de Dados.
 
 Durante meus testes usei o [DBeaver Community](https://dbeaver.io/), mas fique a vontade para usar o que preferir.
 
