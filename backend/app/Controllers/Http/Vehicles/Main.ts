@@ -31,4 +31,16 @@ export default class MainsController {
 
     return vehicle
   }
+
+  public async show({ response, request }: HttpContextContract) {
+    const { id } = request.params()
+
+    const vehicle = await Vehicle.findBy('id', id)
+
+    if (!vehicle) {
+      return response.notFound()
+    }
+
+    return vehicle
+  }
 }
