@@ -107,4 +107,23 @@ Server address: http://127.0.0.1:3333
 Watching filesystem for changes: YES
 ```
 
-É porque o backend já está rodando, basta usar um software de teste de API, eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir, vou deixar um arquivo com as rotas configuradas
+É porque o backend já está rodando.
+
+### 5 Testando A API
+
+Agora para testar a API eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir, vou deixar um arquivo com as rotas configuradas na raiz do projeto chamado `vertel-insomnia.json`, faça a importação, e já terá as rotas devidamente ajustadas, caso você use outro, vou deixar um print no final do arquivo com as rotas disponíveis e seus enpoints.
+
+Para Listagem e Detalhes dos Veículos não é necessário token, elas já estarão funcionando, como não temos nenhum veículo ainda cadastrado não aparecerá nada na lista, então vamos gerar o token do usuário pois cadastro é necessário autenticação.
+
+Primeiro gere o token na rota `/auth`, passando no body username e password com conteúdo vertel
+
+`username: vertel
+password: vertel`
+
+Irá retornar o token, copie e coloque nas variáveis de ambiente do Insmonia
+
+![Variáveis de Ambiente em Dev no Insomnia](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/01a9b081-463a-456a-89de-4fbbcad52ff5)
+
+A partir de agora, você pode cadastrar veículos, editar e apagar selecionado as opções conforme print
+
+![Métodos HTTP para veículos](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/974aab9e-1654-431d-b9c8-26981808dec1)
