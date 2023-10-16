@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Application from '@ioc:Adonis/Core/Application'
 
-import { StoreValidator } from 'App/Validators/Vehicles'
+import { StoreValidator, UpdateValidator } from 'App/Validators/Vehicles'
 import Vehicle from 'App/Models/Vehicle'
 
 export default class MainsController {
@@ -40,6 +40,41 @@ export default class MainsController {
     if (!vehicle) {
       return response.notFound()
     }
+
+    return vehicle
+  }
+
+  public async update({ request }: HttpContextContract) {
+    const { id } = request.params()
+
+    const vehicle = await Vehicle.findOrFail(id)
+
+    const { brand, model, photo, value } = await request.validate(UpdateValidator)
+
+    const updates: Partial<typeof vehicle> = {}
+
+    if (brand) {
+      updates.brand = brand
+    }
+
+    if (model) {
+      updates.model = model
+    }
+
+    if (value) {
+      updates.value = value
+    }
+
+    if (photo) {
+      const vehiclePhoto = `${new Date().getTime()}.${photo.extname}`
+      await photo.move(Application.makePath('public/uploads'), {
+        name: vehiclePhoto
+      })
+      updates.photo = vehiclePhoto
+    }
+
+    vehicle.merge(updates)
+    await vehicle.save()
 
     return vehicle
   }
