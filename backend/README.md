@@ -6,13 +6,13 @@ A parte de exibição dos veículos (Read ou Listagem) será pública, já cadas
 
 ## Tecnologias
 
-- Node.js
-- Adonis.js
-  - Lucid
-  - Auth
-  - Argon2 (criptografia das senhas)
-- Docker
-- PostgreSQL
+- [Node.js](https://nodejs.org/)
+- [Adonis.js](https://adonisjs.com/)
+  - [Lucid](https://docs.adonisjs.com/guides/database/introduction)
+  - [Auth](https://docs.adonisjs.com/guides/auth/introduction)
+  - [Argon2](https://docs.adonisjs.com/guides/security/hashing#available-hashers)
+- [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Como Executar?
 
