@@ -5,7 +5,7 @@ export default class UpdateValidator {
     brand: schema.string.optional(),
     model: schema.string.optional(),
     value: schema.number.optional(),
-    photo: schema.file({
+    photo: schema.file.optional({
       size: '2mb',
       extnames: ['jpg', 'jpeg', 'png']
     })
