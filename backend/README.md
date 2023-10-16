@@ -44,7 +44,12 @@ Assim ele irá criar todas a tabelas que iremos usar no projeto, mas ainda não 
 
 Precisamos inserir alguns dados no Banco de Dados, para que aplicação funcione corretamente, conhecido como seeders (semente), vamos usar esse processo para já deixar o usuário admin cadastrado, ele realizará o acesso de cadastro de veículos no nosso sistema.
 
-Execute o comando: `node ace seeders`
+Execute o comando: `node ace db:seed`
+
+Agora temos o usuário padrão cadastrado:
+
+usuário: vertel
+senha: vertel
 
 ### Executando o Servidor
 
