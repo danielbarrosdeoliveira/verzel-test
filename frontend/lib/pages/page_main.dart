@@ -4,7 +4,7 @@ import 'package:frontend/components/card-vehicle/card_vehicle.dart';
 import 'package:frontend/components/shared/responsive.dart';
 import 'package:frontend/mocks/vehicle.dart';
 import 'package:frontend/models/vehicle_model.dart';
-import 'package:frontend/pages/admin/login.dart';
+import 'package:frontend/pages/page_login.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -22,7 +22,12 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: const Text("Vertel Veículos Usados - Listagem de Veículos"),
         actions: [
-          TextButton(
+          ElevatedButton(
+            style: const ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+            child: const Text(
+              "Login",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -30,10 +35,6 @@ class _MainPageState extends State<MainPage> {
                 ),
               );
             },
-            child: const Text(
-              "Adicionar Veículo",
-              style: TextStyle(color: Colors.greenAccent, fontSize: 18),
-            ),
           ),
         ],
       ),
