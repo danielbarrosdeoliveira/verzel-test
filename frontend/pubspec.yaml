@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   intl: ^0.18.1
-  image_picker: ^1.0.4
   http: ^1.1.0
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -23,5 +23,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  assets:
-    - lib/assets/img/card-vehicle.png
+  # assets:
+  #   - lib/assets/img/card-vehicle.png
