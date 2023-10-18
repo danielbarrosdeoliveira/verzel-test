@@ -1,18 +1,16 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class UpdateValidator {
   public schema = schema.create({
-    brand: schema.string.optional(),
-    model: schema.string.optional(),
-    value: schema.number.optional(),
-    photo: schema.file.optional({
-      size: '2mb',
-      extnames: ['jpg', 'jpeg', 'png']
-    })
+    brand: schema.string.optional({
+      trim: true
+    }),
+    model: schema.string.optional({
+      trim: true
+    }),
+    photo: schema.string.optional({
+      trim: true
+    }),
+    value: schema.number.optional()
   })
-
-  public messages: CustomMessages = {
-    'file.size': 'The file size must be under {{ options.size }}',
-    'file.extname': 'The file must have one of {{ options.extnames }} extension names'
-  }
 }

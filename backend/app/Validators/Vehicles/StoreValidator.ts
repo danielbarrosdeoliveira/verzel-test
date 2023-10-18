@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class StoreValidator {
@@ -7,15 +7,7 @@ export default class StoreValidator {
   public schema = schema.create({
     brand: schema.string({ trim: true }),
     model: schema.string({ trim: true }),
-    photo: schema.file({
-      size: '2mb',
-      extnames: ['jpg', 'jpeg', 'png']
-    }),
+    photo: schema.string({ trim: true }),
     value: schema.number()
   })
-
-  public messages: CustomMessages = {
-    'file.size': 'The file size must be under {{ options.size }}',
-    'file.extname': 'The file must have one of {{ options.extnames }} extension names'
-  }
 }

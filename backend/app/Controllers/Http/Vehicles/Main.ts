@@ -1,6 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Application from '@ioc:Adonis/Core/Application'
-import Drive from '@ioc:Adonis/Core/Drive'
 
 import { StoreValidator, UpdateValidator } from 'App/Validators/Vehicles'
 import Vehicle from 'App/Models/Vehicle'
@@ -24,25 +22,9 @@ export default class MainsController {
     const vehicle = await Vehicle.create({
       brand,
       model,
-      photo: `${new Date().getTime()}.${photo.extname}`,
+      photo,
       value
     })
-
-    await photo.move(Application.makePath('public/uploads'), {
-      name: vehicle.photo
-    })
-
-    return vehicle
-  }
-
-  public async show({ response, request }: HttpContextContract) {
-    const { id } = request.params()
-
-    const vehicle = await Vehicle.findBy('id', id)
-
-    if (!vehicle) {
-      return response.notFound()
-    }
 
     return vehicle
   }
@@ -64,16 +46,12 @@ export default class MainsController {
       updates.model = model
     }
 
-    if (value) {
-      updates.value = value
+    if (photo) {
+      updates.photo = photo
     }
 
-    if (photo) {
-      const vehiclePhoto = `${new Date().getTime()}.${photo.extname}`
-      await photo.move(Application.makePath('public/uploads'), {
-        name: vehiclePhoto
-      })
-      updates.photo = vehiclePhoto
+    if (value) {
+      updates.value = value
     }
 
     vehicle.merge(updates)
@@ -89,17 +67,6 @@ export default class MainsController {
 
     if (!vehicle) {
       return response.notFound()
-    }
-
-    const vehiclePhoto = vehicle.$attributes.photo
-    const vehiclePhotoExists = await Drive.exists(`/uploads/${vehiclePhoto}`)
-
-    if (vehiclePhotoExists) {
-      await Drive.delete(`/uploads/${vehiclePhoto}`)
-    }
-
-    if (vehiclePhotoExists) {
-      await vehicle.delete()
     }
 
     return response.finish()
