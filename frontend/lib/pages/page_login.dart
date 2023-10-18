@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:frontend/components/shared/responsive.dart';
 import 'package:frontend/pages/admin/list_vehicles.dart';
 import 'package:frontend/pages/page_main.dart';
-import 'package:frontend/components/shared/responsive.dart';
+import 'package:frontend/services/auth_services.dart';
+import 'package:frontend/utils/alert_utils.dart';
+import 'package:frontend/utils/secure_storage.dart';
 
 class LoginAdminPage extends StatefulWidget {
   const LoginAdminPage({Key? key}) : super(key: key);
@@ -14,7 +18,92 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
   TextEditingController userTextEditController = TextEditingController();
   TextEditingController passwordTextEditController = TextEditingController();
 
+  AuthService authService = AuthService();
   bool showPassword = false;
+  bool isLoading = false;
+
+  handleLogin() async {
+    if (userTextEditController.text.isEmpty ||
+        passwordTextEditController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Atenção',
+              style: TextStyle(color: Colors.amber),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              )
+            ],
+            content: const Text("Usuário e Senha são obrigatórios!"),
+          );
+        },
+      );
+
+      return;
+    }
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      var result = await authService.store(
+        userTextEditController.text,
+        passwordTextEditController.text,
+      );
+
+      if (result == null) {
+        alertError("Usuário ou senha inválido!");
+      } else {
+        navigateToListVehicles();
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void alertError(String error) {
+    AlertUtils.showErrorDialog(context, error);
+  }
+
+  void navigateToListVehicles() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AdminListVehiclePage(),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    verifyToken();
+  }
+
+  void verifyToken() async {
+    var token = await getToken("token");
+
+    if (token != null) {
+      Future.delayed(Duration.zero, () {
+        navigateToListVehicles();
+      });
+    }
+
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +117,8 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
               ));
             },
             child: const Text(
-              "Página Principal",
-              style: TextStyle(color: Colors.greenAccent, fontSize: 18),
+              "Voltar",
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],
@@ -118,16 +207,16 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const AdminListVehiclePage(),
-                      ),
-                    );
+                    handleLogin();
                   },
-                  child: const Text(
-                    "Entrar",
-                    style: TextStyle(fontSize: 18),
-                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Entrar",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
                 )
               ],
             ),
