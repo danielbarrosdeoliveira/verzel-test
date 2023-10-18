@@ -8,29 +8,29 @@ final priceFormat = NumberFormat.currency(locale: 'pt_BR', name: '');
 
 double getCardWidth(BuildContext context) {
   if (ResponsiveWidget.isExtraSmallScreen(context)) {
-    return 260;
+    return 100;
   } else if (ResponsiveWidget.isSmallScreen(context)) {
-    return 300;
+    return 140;
   } else if (ResponsiveWidget.isMediumScreen(context)) {
-    return 360;
+    return 140;
   } else if (ResponsiveWidget.isLargeScreen(context)) {
-    return 440;
+    return 160;
   } else {
-    return 440;
+    return 200;
   }
 }
 
 double getCardHeight(BuildContext context) {
   if (ResponsiveWidget.isExtraSmallScreen(context)) {
-    return 160;
+    return 80;
   } else if (ResponsiveWidget.isSmallScreen(context)) {
-    return 200;
+    return 120;
   } else if (ResponsiveWidget.isMediumScreen(context)) {
-    return 240;
+    return 120;
   } else if (ResponsiveWidget.isLargeScreen(context)) {
-    return 280;
+    return 100;
   } else {
-    return 280;
+    return 140;
   }
 }
 
