@@ -1,6 +1,6 @@
 # Backend
 
-Backend do projeto de Teste para vaga de Fullstack da vertel, esse projeto consiste em um CRUD de uma vitrine de veículos usados, onde temos alguns requisitos:
+Backend do projeto de Teste para vaga de Fullstack da Verzel, esse projeto consiste em um CRUD de uma vitrine de veículos usados, onde temos alguns requisitos:
 
 A parte de exibição dos veículos (Read ou Listagem) será pública, já cadastro, atualização e apagar serão autenticadas, então teremos uma parte para acesso do usuário.
 
@@ -40,8 +40,8 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: 'vertel'
-      POSTGRES_PASSWORD: 'vertel'
+      POSTGRES_USER: 'verzel'
+      POSTGRES_PASSWORD: 'verzel'
     ports:
       - '5430:5430'
 ```
@@ -50,8 +50,8 @@ Onde está **ports**, eu troquei para uma porta disponível em meu sistema opera
 
 Para fazer subir configuração da imagem e já executar o banco de dados, rode o comando: `docker-compose up -d`
 
-Se não quiser instalar o Docker, e já tem uma instância do PotsgreSQL, crie um banco de dados chamado vertel.
-Se não tem a instância do Postgres, e não quer instalar o Docker, faça a instalação do PosgreSQL, crie um banco de dados chamado vertel, volte e siga o passo a passo.
+Se não quiser instalar o Docker, e já tem uma instância do PotsgreSQL, crie um banco de dados chamado verzel.
+Se não tem a instância do Postgres, e não quer instalar o Docker, faça a instalação do PosgreSQL, crie um banco de dados chamado verzel, volte e siga o passo a passo.
 
 Agora basta ajustar o arquivo .env, abaixo exemplo.
 
@@ -62,7 +62,7 @@ PG_HOST=IP DA INSTÂNCIA, se for LOCALHOST, pode por ip de loopback 127.0.0.1 ou
 PG_PORT=PORTA CONFIGURADA NA INSTÂNCIA ou a PADRÃO se for o caso 5432
 PG_USER=INFORME o usuário da sua INSTÂNCIA
 PG_PASSWORD=INFORME a senha da sua INSTÂNCIA
-PG_DB_NAME=vertel
+PG_DB_NAME=verzel
 ```
 
 Feito isso, agora é testar se está conseguindo acessar o Banco de Dados.
@@ -76,10 +76,10 @@ Durante meus testes usei o [DBeaver Community](https://dbeaver.io/), mas fique a
 ```
 Host: localhost
 Porta: A que você colocou ou a padrão se for seu caso.
-Usuário e Senha: vertel
+Usuário e Senha: verzel
 ```
 
-![image](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/09df2b89-393a-4128-962e-888f6fd01b32)
+![Print Conexão Banco Dados](https://github.com/danielbarrosdeoliveira/verzel-test/assets/28925159/2066fe68-abfc-4340-b4b7-226a4c37ddca)
 
 #### 3.1 Criar as tabelas no Banco de Dados
 
@@ -94,8 +94,8 @@ Execute o comando: `node ace db:seed`
 Agora temos o usuário padrão cadastrado:
 
 ```
-usuário: vertel
-senha: vertel
+usuário: verzel
+senha: verzel
 ```
 
 ### 4 Executando o Servidor
@@ -111,19 +111,19 @@ Watching filesystem for changes: YES
 
 ### 5 Testando A API
 
-Agora para testar a API eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir, vou deixar um arquivo com as rotas configuradas na raiz do projeto chamado `vertel-insomnia.json`, faça a importação, e já terá as rotas devidamente ajustadas, caso você use outro, vou deixar um print no final do arquivo com as rotas disponíveis e seus enpoints.
+Agora para testar a API eu usei o [Insomnia](https://insomnia.rest/download), mas fique a vontade para usar o que preferir, vou deixar um arquivo com as rotas configuradas na raiz do projeto chamado `verzel-insomnia.json`, faça a importação, e já terá as rotas devidamente ajustadas, caso você use outro, vou deixar um print no final do arquivo com as rotas disponíveis e seus enpoints.
 
 Para Listagem e Detalhes dos Veículos não é necessário token, elas já estarão funcionando, como não temos nenhum veículo ainda cadastrado não aparecerá nada na lista, então vamos gerar o token do usuário pois cadastro é necessário autenticação.
 
-Primeiro gere o token na rota `/auth`, passando no body username e password com conteúdo vertel
+Primeiro gere o token na rota `/auth`, passando no body username e password com conteúdo verzel
 
-`username: vertel
-password: vertel`
+`username: verzel
+password: verzel`
 
 Irá retornar o token, copie e coloque nas variáveis de ambiente do Insmonia
 
-![Variáveis de Ambiente em Dev no Insomnia](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/01a9b081-463a-456a-89de-4fbbcad52ff5)
+![Variáveis de Ambiente em Dev no Insomnia](https://github.com/danielbarrosdeoliveira/verzel-test/assets/28925159/ea106c1a-4069-4998-8945-6c7f19671e93)
 
 A partir de agora, você pode cadastrar veículos, editar e apagar selecionado as opções conforme print
 
-![Métodos HTTP para veículos](https://github.com/danielbarrosdeoliveira/vertel-test/assets/28925159/974aab9e-1654-431d-b9c8-26981808dec1)
+![Métodos HTTP para veículos](https://github.com/danielbarrosdeoliveira/verzel-test/assets/28925159/783897fd-9281-4191-b828-9f3c60553134)

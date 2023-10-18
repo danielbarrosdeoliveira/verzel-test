@@ -6,14 +6,17 @@ Esse é um repositório para armazenar o teste realizado para a vaga de Desenvol
 
 ### Frontend
 
-- Flutter
+- [Flutter](https://flutter.dev/)
 
 ### Backend
 
-- Node.js
-- Adonis.js
-- Docker
-- PostgreSQL
+- [Node.js](https://nodejs.org/)
+- [Adonis.js](https://adonisjs.com/)
+  - [Lucid](https://docs.adonisjs.com/guides/database/introduction)
+  - [Auth](https://docs.adonisjs.com/guides/auth/introduction)
+  - [Argon2](https://docs.adonisjs.com/guides/security/hashing#available-hashers)
+- [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Requisitos
 

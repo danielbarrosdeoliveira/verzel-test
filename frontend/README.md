@@ -1,6 +1,6 @@
-# Vertel Test Frontend
+# Verzel Test Frontend
 
-Esse é um teste para vaga de Dev Fullstack na Vertel
+Esse é um teste para vaga de Dev Fullstack na Verzel
 Desenvolver o Frontend em Flutter Web
 
 ## Pré-requisitos
@@ -13,7 +13,7 @@ Navegador da web (como o Google Chrome) para executar o aplicativo web.
 Clone este repositório:
 
 ```bash
-git clone https://github.com/danielbarrosdeoliveira/vertel-test.git
+git clone https://github.com/danielbarrosdeoliveira/verzel-test.git
 ```
 
 Navegue até o diretório do projeto:

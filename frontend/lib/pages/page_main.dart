@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Vertel Veículos Usados",
+          "Verzel Veículos Usados",
         ),
         centerTitle: true,
         actions: [
