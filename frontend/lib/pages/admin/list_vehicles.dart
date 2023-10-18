@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/vehicle/data_table.dart';
+import 'package:frontend/components/vehicle/form_store.dart';
 
-import 'package:frontend/components/vehicle/store_update_vehicle.dart';
 import 'package:frontend/components/shared/responsive.dart';
+import 'package:frontend/components/vehicle/form_update.dart';
 import 'package:frontend/models/vehicle_model.dart';
-import 'package:frontend/mocks/vehicle.dart';
+import 'package:frontend/pages/page_login.dart';
+import 'package:frontend/services/auth_services.dart';
 import 'package:frontend/services/vehicle_services.dart';
 
 class AdminListVehiclePage extends StatefulWidget {
@@ -15,33 +17,64 @@ class AdminListVehiclePage extends StatefulWidget {
 }
 
 class _AdminListVehiclePageState extends State<AdminListVehiclePage> {
-  List<Vehicle> vehicles = getMockVehicles();
+  List<Vehicle>? vehicles = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    handleGetVehicle();
+  }
+
+  void handleGetVehicle() async {
+    VehicleService vehicleService = VehicleService();
+
+    var result = await vehicleService.index();
+
+    if (result != null) {
+      setState(() {
+        vehicles = result;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    void openVehicleFormModal(BuildContext context, Vehicle? vehicle) {
+    void openVehicleFormStore(BuildContext context) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(
-              vehicle == null ? "Cadastro de Veículo" : "Edição de Veículo",
-            ),
-            content: VehicleForm(
-              vehicle: vehicle,
+            title: const Text("Cadastro de Veículo"),
+            content: VehicleFormStore(
               onSubmit: (newVehicle) {
-                Navigator.of(context).pop();
-                if (vehicle == null) {
+                Navigator.pop(context);
+                if (newVehicle.brand.isNotEmpty) {
                   setState(() {
-                    vehicles.add(newVehicle);
+                    vehicles!.add(newVehicle);
                   });
-                } else {
-                  final index = vehicles.indexWhere((v) => v.id == vehicle.id);
-                  if (index >= 0) {
-                    setState(() {
-                      vehicles[index] = newVehicle;
-                    });
-                  }
+                }
+              },
+            ),
+          );
+        },
+      );
+    }
+
+    void openVehicleFormUpdate(BuildContext context, Vehicle? vehicle) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Atualização de Veículo"),
+            content: VehicleFormUpdate(
+              vehicle: vehicle!,
+              onUpdate: (dataToUpdateVehicle) async {
+                final responseVehicleUpdated =
+                    await VehicleService().update(dataToUpdateVehicle);
+
+                if (responseVehicleUpdated != null) {
+                  handleGetVehicle();
                 }
               },
             ),
@@ -85,6 +118,10 @@ class _AdminListVehiclePageState extends State<AdminListVehiclePage> {
                   ),
                   onPressed: () {
                     deleteVehicle(vehicle?.id);
+                    Navigator.of(context).pop();
+                    setState(() {
+                      vehicles!.remove(vehicle);
+                    });
                   },
                   child: const Text(
                     "Confirmar",
@@ -98,15 +135,30 @@ class _AdminListVehiclePageState extends State<AdminListVehiclePage> {
       );
     }
 
+    void handleLogout(BuildContext context) async {
+      AuthService authService = AuthService();
+
+      await authService.destroy();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginAdminPage(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Administrador - Veículos Cadastrados"),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              handleLogout(context);
+            },
             child: const Text(
-              "Sair do Admin",
-              style: TextStyle(color: Colors.white),
+              "Deslogar",
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           )
         ],
@@ -118,36 +170,36 @@ class _AdminListVehiclePageState extends State<AdminListVehiclePage> {
           ResponsiveWidget(
             extraSmallScreen: buildVehicleDataTable(
               300,
-              openVehicleFormModal,
-              vehicles,
+              openVehicleFormUpdate,
+              vehicles!,
               context,
               handleModalDeleteVehicle,
             ),
             smallScreen: buildVehicleDataTable(
               400,
-              openVehicleFormModal,
-              vehicles,
+              openVehicleFormUpdate,
+              vehicles!,
               context,
               handleModalDeleteVehicle,
             ),
             mediumScreen: buildVehicleDataTable(
               double.infinity,
-              openVehicleFormModal,
-              vehicles,
+              openVehicleFormUpdate,
+              vehicles!,
               context,
               handleModalDeleteVehicle,
             ),
             largeScreen: buildVehicleDataTable(
               double.infinity,
-              openVehicleFormModal,
-              vehicles,
+              openVehicleFormUpdate,
+              vehicles!,
               context,
               handleModalDeleteVehicle,
             ),
             extraLargeScreen: buildVehicleDataTable(
               double.infinity,
-              openVehicleFormModal,
-              vehicles,
+              openVehicleFormUpdate,
+              vehicles!,
               context,
               handleModalDeleteVehicle,
             ),
@@ -156,7 +208,7 @@ class _AdminListVehiclePageState extends State<AdminListVehiclePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          openVehicleFormModal(context, null);
+          openVehicleFormStore(context);
         },
         child: const Icon(Icons.add),
       ),
