@@ -1,6 +1,6 @@
-# verzel-test
+# Teste Verzel Fullstack Flutter
 
-This repo is a test for Fullstack Dev
+Esse é um repositório para armazenar o teste realizado para a vaga de Desenvolvedor Fullstack Flutter da Verzel
 
 ## Tecnologias
 
