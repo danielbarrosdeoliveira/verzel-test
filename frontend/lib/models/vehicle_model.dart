@@ -3,13 +3,13 @@ class Vehicle {
   final String brand;
   final String model;
   final String photo;
-  final double price;
+  final double value;
 
   Vehicle({
     this.id,
     required this.brand,
     required this.model,
-    required this.price,
+    required this.value,
     required this.photo,
   });
 
@@ -19,7 +19,7 @@ class Vehicle {
       brand: data['brand'],
       model: data['model'],
       photo: data['photo'],
-      price: data['price'].toDouble(),
+      value: data['value'],
     );
   }
 
@@ -29,7 +29,7 @@ class Vehicle {
       'brand': brand,
       'model': model,
       'photo': photo,
-      'price': price,
+      'value': value,
     };
   }
 }

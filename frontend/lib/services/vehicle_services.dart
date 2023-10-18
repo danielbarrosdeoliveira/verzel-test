@@ -2,41 +2,66 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'package:frontend/utils/secure_storage.dart';
 import 'package:frontend/models/vehicle_model.dart';
 
 class VehicleService {
-  String apiUrl = 'http://localhost:3333';
+  String apiUrl = 'http://127.0.0.1:3333';
   String endpoint = 'vehicles';
 
-  Future<List<Vehicle>> index() async {
+  Future<List<Vehicle>?> index() async {
     final uri = Uri.parse('$apiUrl/$endpoint');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      final List<dynamic> jsonData = json.decode(response.body);
+      final List<dynamic> jsonData = await json.decode(response.body);
+
       List<Vehicle> vehicles =
           jsonData.map((data) => Vehicle.fromJson(data)).toList();
       return vehicles;
+    } else if (response.statusCode == 404) {
+      return null;
     } else {
-      throw Exception('Falha ao buscar veículos da API');
+      print("Erro não tratado");
     }
+    return null;
   }
 
-  Future<void> store(Vehicle vehicle, String photoPath) async {
+  Future<Vehicle?> store(Vehicle vehicle) async {
+    var token = await getToken("token");
+
     final uri = Uri.parse('$apiUrl/$endpoint');
-    final request = http.MultipartRequest('POST', uri);
 
-    request.fields['brand'] = vehicle.brand;
-    request.fields['model'] = vehicle.model;
-    request.fields['price'] = vehicle.price.toString();
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
-    final file = await http.MultipartFile.fromPath('photo', photoPath);
-    request.files.add(file);
+    final vehicleData = {
+      'brand': vehicle.brand,
+      'model': vehicle.model,
+      'photo': vehicle.photo,
+      'value': vehicle.value,
+    };
 
-    final response = await request.send();
+    final jsonBody = jsonEncode(vehicleData);
+
+    final response = await http.post(uri, headers: headers, body: jsonBody);
 
     if (response.statusCode == 200) {
-    } else {}
+      final responseData = json.decode(response.body);
+
+      final vehicle = Vehicle(
+        brand: responseData['brand'],
+        model: responseData['model'],
+        photo: responseData['photo'],
+        value: double.parse(responseData['value'].toString()),
+      );
+
+      return vehicle;
+    }
+
+    return null;
   }
 
   Future<Vehicle> show(int vehicleId) async {
@@ -52,32 +77,48 @@ class VehicleService {
     }
   }
 
-  Future<void> update(Vehicle vehicle, String photoPath) async {
-    if (vehicle.id == null) {
-      throw Exception('O veículo deve ter um ID para ser atualizado.');
-    }
+  Future<dynamic> update(Vehicle vehicle) async {
+    var token = await getToken("token");
 
     final uri = Uri.parse('$apiUrl/$endpoint/${vehicle.id}');
-    final request = http.MultipartRequest('PUT', uri);
 
-    request.fields['brand'] = vehicle.brand;
-    request.fields['model'] = vehicle.model;
-    request.fields['price'] = vehicle.price.toString();
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
-    final file = await http.MultipartFile.fromPath('photo', photoPath);
-    request.files.add(file);
+    final vehicleData = {
+      'brand': vehicle.brand,
+      'model': vehicle.model,
+      'photo': vehicle.photo,
+      'value': vehicle.value,
+    };
 
-    final response = await request.send();
+    final jsonBody = jsonEncode(vehicleData);
+
+    final response = await http.put(uri, headers: headers, body: jsonBody);
 
     if (response.statusCode == 200) {
-    } else {}
+      return response.body;
+    } else {
+      return null;
+    }
   }
 
-  Future<void> destroy(int vehicleId) async {
+  Future<void>? destroy(int vehicleId) async {
+    var token = await getToken("token");
+
     final uri = Uri.parse('$apiUrl/$endpoint/$vehicleId');
-    final response = await http.delete(uri);
+    final response = await http.delete(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
-    } else {}
+    } else {
+      return;
+    }
   }
 }
