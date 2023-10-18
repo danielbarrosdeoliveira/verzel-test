@@ -24,7 +24,7 @@ Esse é um repositório para armazenar o teste realizado para a vaga de Desenvol
 
 ## Como executar?
 
-Foi criado uma documentação para cada um, então ao acessar tanto a pasta frontend ou backend, ambas tem a documentação para execução de cada um.
+Foi criado uma documentação para cada um, então ao acessar tanto a pasta [frontend](https://github.com/danielbarrosdeoliveira/verzel-test/tree/master/frontend) ou [backend](https://github.com/danielbarrosdeoliveira/verzel-test/tree/master/backend), ambas tem a documentação para execução.
 
 ## Autor
 
