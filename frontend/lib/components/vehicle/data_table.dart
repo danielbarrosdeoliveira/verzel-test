@@ -4,7 +4,7 @@ import 'package:frontend/utils/vehicle.dart';
 
 Widget buildVehicleDataTable(
   double width,
-  Function(BuildContext, Vehicle?) openVehicleFormModal,
+  Function(BuildContext, Vehicle) openVehicleFormUpdateModal,
   List<Vehicle> vehicles,
   BuildContext context,
   Function(BuildContext, Vehicle?) openDeleteVehicleModel,
@@ -26,18 +26,15 @@ Widget buildVehicleDataTable(
           return DataRow(cells: [
             DataCell(
               SizedBox(
-                width: 100,
-                child: Image.asset(
-                  vehicle.photo,
-                  fit: BoxFit.cover,
-                ),
+                width: 80,
+                child: Image.network(vehicle.photo),
               ),
             ),
             DataCell(Text(vehicle.brand)),
             DataCell(Text(vehicle.model)),
             DataCell(
               Text(
-                priceFormat.format(vehicle.price),
+                priceFormat.format(vehicle.value),
               ),
             ),
             DataCell(Row(
@@ -48,7 +45,7 @@ Widget buildVehicleDataTable(
                     color: Colors.amber,
                   ),
                   onPressed: () {
-                    openVehicleFormModal(context, vehicle);
+                    openVehicleFormUpdateModal(context, vehicle);
                   },
                 ),
                 IconButton(
